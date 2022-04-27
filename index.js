@@ -13,7 +13,7 @@ async function getJwt() {
 }
 
 (async () => {
-  const apiUrl = "https://atr9k85b7d.execute-api.us-east-1.amazonaws.com";
+  const apiUrl = "https://jzlk6rq61h.execute-api.us-east-1.amazonaws.com";
   const roleArn = core.getInput("roleArn", { required: true });
   const transitiveTags = core.getInput("transitiveTags");
   const jwt = await getJwt();
