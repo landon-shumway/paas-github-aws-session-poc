@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "esbuild index.js --outfile=dist/index.js --target=node16 --platform=node --minify --bundle"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,7 @@
   "homepage": "https://github.com/landon-shumway/paas-github-aws-session-poc#readme",
   "dependencies": {
     "@actions/core": "^1.7.0",
+    "esbuild": "^0.14.38",
     "node-fetch": "^3.2.3"
   }
 }
