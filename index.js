@@ -7,7 +7,7 @@ async function getAwsCreds() {
   const roleArn = core.getInput("role-arn");
 
   console.log(roleArn);
-  console.log(oidcToken);
+  console.log(aws_id_token);
 
   return aws_id_token;
 }
