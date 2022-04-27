@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/landon-shumway/paas-github-aws-session-poc#readme",
   "dependencies": {
-    "@actions/core": "^1.7.0"
+    "@actions/core": "^1.7.0",
+    "node-fetch": "^3.2.3"
   }
 }
