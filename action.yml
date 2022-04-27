@@ -6,7 +6,7 @@ inputs:
     required: true
   transitiveTags:
     description: "Role arn that should be tagged"
-    default: []
+    required: false
 
 outputs:
   AWS_ACCESS_KEY_ID: # id of output
