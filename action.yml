@@ -1,0 +1,18 @@
+name: "PaaS GitHub AWS Session POC"
+description: "Generate AWS Creds based on a valid GitHub OIDC token"
+inputs:
+  role-arn: # id of input
+    description: "Role arn that should be tagged"
+    required: true
+
+outputs:
+  aws-access-key-id: # id of output
+    description: "aws access key id"
+  aws-secret-access-key:
+    description: "aws secret access key"
+  aws_session_token:
+    description: "aws session token"
+
+runs:
+  using: "node16"
+  main: "dist/index.js"
