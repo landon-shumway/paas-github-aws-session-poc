@@ -1,5 +1,5 @@
 import core from "@actions/core";
-import fetch from "node-fetch";
+// import fetch from "node-fetch";
 
 async function getJwt() {
   const { ACTIONS_ID_TOKEN_REQUEST_TOKEN, ACTIONS_ID_TOKEN_REQUEST_URL } =
@@ -13,10 +13,10 @@ async function getJwt() {
 }
 
 (async () => {
-  // TODO - fill this in
   const apiUrl = "https://atr9k85b7d.execute-api.us-east-1.amazonaws.com";
   const roleArn = core.getInput("roleArn", { required: true });
-  const transitiveTags = core.getInput("transitiveTags");
+  console.log(roleArn);
+  // const transitiveTags = core.getInput("transitiveTags");
   const jwt = await getJwt();
 
   const resp = await fetch(apiUrl, {

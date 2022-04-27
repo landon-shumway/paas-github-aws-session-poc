@@ -1,10 +1,12 @@
 {
   "name": "paas-github-aws-session-poc",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "ncc build index.js --license licenses.txt",
+    "releasePatch": "npm run build; git commit -a; export NEW_VERSION=$(npm version patch -f  --no-git-tag-version); git add package.json; git tag -a -m \"$NEW_VERSION\" $NEW_VERSION; git push --follow-tags",
+    "incrementPatchVersion": "npm version patch -f"
   },
   "repository": {
     "type": "git",
