@@ -1,0 +1,24 @@
+{
+  "name": "paas-github-aws-session-poc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/landon-shumway/paas-github-aws-session-poc.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/landon-shumway/paas-github-aws-session-poc/issues"
+  },
+  "homepage": "https://github.com/landon-shumway/paas-github-aws-session-poc#readme",
+  "dependencies": {
+    "@actions/core": "^1.7.0",
+    "@actions/github": "^5.0.1"
+  }
+}
