@@ -6,11 +6,11 @@ inputs:
     required: true
 
 outputs:
-  aws-access-key-id: # id of output
+  AWS_ACCESS_KEY_ID: # id of output
     description: "aws access key id"
-  aws-secret-access-key:
+  AWS_SECRET_ACCESS_KEY:
     description: "aws secret access key"
-  aws_session_token:
+  AWS_SESSION_TOKEN:
     description: "aws session token"
 
 runs:

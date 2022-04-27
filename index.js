@@ -1,19 +1,39 @@
-const core = require("@actions/core");
+import core from "@actions/core";
+import fetch from "node-fetch";
 
-async function getAwsCreds() {
-  const audience = "sts.amazonaws.com";
-  const aws_id_token = await core.getIDToken(audience);
+async function getJwt() {
+  const { ACTIONS_ID_TOKEN_REQUEST_TOKEN, ACTIONS_ID_TOKEN_REQUEST_URL } =
+    process.env;
+  const resp = await fetch(`${ACTIONS_ID_TOKEN_REQUEST_URL}`, {
+    headers: { Authorization: `bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}` },
+  });
 
-  const roleArn = core.getInput("role-arn");
-
-  console.log(roleArn);
-  console.log(aws_id_token);
-
-  return aws_id_token;
+  const { value } = await resp.json();
+  return value;
 }
 
-try {
-  getAwsCreds();
-} catch (error) {
-  core.setFailed(error.message);
-}
+(async () => {
+  // TODO - fill this in
+  const apiUrl = "https://atr9k85b7d.execute-api.us-east-1.amazonaws.com";
+  const roleArn = core.getInput("roleArn", { required: true });
+  const transitiveTags = core.getInput("transitiveTags");
+  const jwt = await getJwt();
+
+  const resp = await fetch(apiUrl, {
+    headers: {
+      "ghaoidc-role-arn": roleArn,
+      "ghaoidc-transitive-tags": transitiveTags,
+      authorization: jwt,
+    },
+  });
+
+  const body = await resp.json();
+  const { AccessKeyId, SecretAccessKey, SessionToken } = body.Credentials;
+
+  core.setSecret(SecretAccessKey);
+  core.setSecret(SessionToken);
+
+  core.exportVariable("AWS_ACCESS_KEY_ID", AccessKeyId);
+  core.exportVariable("AWS_SECRET_ACCESS_KEY", SecretAccessKey);
+  core.exportVariable("AWS_SESSION_TOKEN", SessionToken);
+})();

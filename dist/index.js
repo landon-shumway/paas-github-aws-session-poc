@@ -1846,6 +1846,14 @@ exports.debug = debug; // for test
 
 /***/ }),
 
+/***/ 848:
+/***/ ((module) => {
+
+module.exports = eval("require")("node-fetch");
+
+
+/***/ }),
+
 /***/ 491:
 /***/ ((module) => {
 
@@ -1959,33 +1967,99 @@ module.exports = require("util");
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__nccwpck_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__nccwpck_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__nccwpck_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__nccwpck_require__.o(definition, key) && !__nccwpck_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__nccwpck_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
-const core = __nccwpck_require__(24);
+"use strict";
+__nccwpck_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(24);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__nccwpck_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var node_fetch__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(848);
+/* harmony import */ var node_fetch__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__nccwpck_require__.n(node_fetch__WEBPACK_IMPORTED_MODULE_1__);
 
-async function getAwsCreds() {
-  const audience = "sts.amazonaws.com";
-  const aws_id_token = await core.getIDToken(audience);
 
-  const roleArn = core.getInput("role-arn");
 
-  console.log(roleArn);
-  console.log(aws_id_token);
+async function getJwt() {
+  const { ACTIONS_ID_TOKEN_REQUEST_TOKEN, ACTIONS_ID_TOKEN_REQUEST_URL } =
+    process.env;
+  const resp = await node_fetch__WEBPACK_IMPORTED_MODULE_1___default()(`${ACTIONS_ID_TOKEN_REQUEST_URL}`, {
+    headers: { Authorization: `bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}` },
+  });
 
-  return aws_id_token;
+  const { value } = await resp.json();
+  return value;
 }
 
-try {
-  getAwsCreds();
-} catch (error) {
-  core.setFailed(error.message);
-}
+(async () => {
+  // TODO - fill this in
+  const apiUrl = "https://atr9k85b7d.execute-api.us-east-1.amazonaws.com";
+  const roleArn = _actions_core__WEBPACK_IMPORTED_MODULE_0___default().getInput("roleArn", { required: true });
+  const transitiveTags = _actions_core__WEBPACK_IMPORTED_MODULE_0___default().getInput("transitiveTags");
+  const jwt = await getJwt();
+
+  const resp = await node_fetch__WEBPACK_IMPORTED_MODULE_1___default()(apiUrl, {
+    headers: {
+      "ghaoidc-role-arn": roleArn,
+      "ghaoidc-transitive-tags": transitiveTags,
+      authorization: jwt,
+    },
+  });
+
+  const body = await resp.json();
+  const { AccessKeyId, SecretAccessKey, SessionToken } = body.Credentials;
+
+  _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setSecret(SecretAccessKey);
+  _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setSecret(SessionToken);
+
+  _actions_core__WEBPACK_IMPORTED_MODULE_0___default().exportVariable("AWS_ACCESS_KEY_ID", AccessKeyId);
+  _actions_core__WEBPACK_IMPORTED_MODULE_0___default().exportVariable("AWS_SECRET_ACCESS_KEY", SecretAccessKey);
+  _actions_core__WEBPACK_IMPORTED_MODULE_0___default().exportVariable("AWS_SESSION_TOKEN", SessionToken);
+})();
 
 })();
 
