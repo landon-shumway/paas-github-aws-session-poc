@@ -1,9 +1,12 @@
 name: "PaaS GitHub AWS Session POC"
 description: "Generate AWS Creds based on a valid GitHub OIDC token"
 inputs:
-  role-arn: # id of input
+  roleArn: # id of input
     description: "Role arn that should be tagged"
     required: true
+  transitiveTags:
+    description: "Role arn that should be tagged"
+    default: []
 
 outputs:
   AWS_ACCESS_KEY_ID: # id of output
