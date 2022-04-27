@@ -5923,6 +5923,10 @@ async function getJwt() {
   core.exportVariable("AWS_ACCESS_KEY_ID", AccessKeyId);
   core.exportVariable("AWS_SECRET_ACCESS_KEY", SecretAccessKey);
   core.exportVariable("AWS_SESSION_TOKEN", SessionToken);
+
+  core.setOutput("AWS_ACCESS_KEY_ID", AccessKeyId);
+  core.setOutput("AWS_SECRET_ACCESS_KEY", SecretAccessKey);
+  core.setOutput("AWS_SESSION_TOKEN", SessionToken);
 })();
 
 })();
