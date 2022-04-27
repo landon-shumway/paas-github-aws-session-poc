@@ -5910,7 +5910,11 @@ async function getJwt() {
     },
   });
 
+
   const body = await resp.json();
+  console.log(resp)
+  console.log(body)
+
   const { AccessKeyId, SecretAccessKey, SessionToken } = body.Credentials;
 
   core.setSecret(SecretAccessKey);
