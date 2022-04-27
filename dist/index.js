@@ -5912,8 +5912,6 @@ async function getJwt() {
 
 
   const body = await resp.json();
-  console.log(resp)
-  console.log(body)
 
   const { AccessKeyId, SecretAccessKey, SessionToken } = body.Credentials;
 
@@ -5923,10 +5921,12 @@ async function getJwt() {
   core.exportVariable("AWS_ACCESS_KEY_ID", AccessKeyId);
   core.exportVariable("AWS_SECRET_ACCESS_KEY", SecretAccessKey);
   core.exportVariable("AWS_SESSION_TOKEN", SessionToken);
+  core.exportVariable("AWS_REGION", "us-east-1");
 
   core.setOutput("AWS_ACCESS_KEY_ID", AccessKeyId);
   core.setOutput("AWS_SECRET_ACCESS_KEY", SecretAccessKey);
   core.setOutput("AWS_SESSION_TOKEN", SessionToken);
+  core.setOutput("AWS_REGION", "us-east-1");
 })();
 
 })();
