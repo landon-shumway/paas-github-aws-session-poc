@@ -10,19 +10,18 @@ jobs:
   debug:
     name: Debug
     runs-on: ubuntu-latest
-
+    permissions:
+        id-token: write
     steps:
-    - name: Check out code
-      uses: actions/checkout@v2
-      
-    - name: echo username
-      run: |
-        echo ${{ inputs.username }}
-      
-    - name: Set up secret file
-      env:
-        DEBUG_PASSWORD: ${{ secrets.DEBUG_PASSWORD }}
-        DEBUG_SECRET_KEY: ${{ secrets.DEBUG_SECRET_KEY }}
-      run: |
-        echo $DEBUG_PASSWORD >> secrets.txt
-        echo $DEBUG_SECRET_KEY >> secrets.txt
+      - name: Github AWS session poc
+        id: github-aws-session
+        uses: landon-shumway/paas-github-aws-session-poc@v2.0.7
+        with:
+          roleArn: ${{ secrets.ROLE_ARN }}
+      - name: get-identity
+        run: |
+         aws sts get-caller-identity
+      - name: echo user
+        run: |
+         echo ${{ inputs.username }}
+     
