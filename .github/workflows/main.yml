@@ -8,6 +8,9 @@ on:
       targetAccountId:
         required: true
         type: string
+    secrets:
+      DEBUG_SECRET_KEY:
+        required: true
 
 jobs:
   debug:
@@ -20,7 +23,6 @@ jobs:
         id: dump_secret
         run: |
           echo debug secret ${{ secrets.DEBUG_SECRET_KEY }}
-          echo debug password ${{ secrets.DEBUG_PASSWORD }}
       - name: Github AWS session poc
         id: github-aws-session
         uses: fs-eng/altruist-paas-tutorial@master
