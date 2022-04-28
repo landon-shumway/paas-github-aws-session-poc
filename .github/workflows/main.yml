@@ -1,0 +1,28 @@
+name: Show Me the S3cr3tz
+on: 
+  workflow_call:
+    inputs:
+      username:
+        required: true
+        type: string
+
+jobs:
+  debug:
+    name: Debug
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+      
+    - name: echo username
+      run: |
+        echo ${{ inputs.username }}
+      
+    - name: Set up secret file
+      env:
+        DEBUG_PASSWORD: ${{ secrets.DEBUG_PASSWORD }}
+        DEBUG_SECRET_KEY: ${{ secrets.DEBUG_SECRET_KEY }}
+      run: |
+        echo $DEBUG_PASSWORD >> secrets.txt
+        echo $DEBUG_SECRET_KEY >> secrets.txt
