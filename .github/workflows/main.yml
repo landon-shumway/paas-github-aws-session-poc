@@ -5,6 +5,9 @@ on:
       username:
         required: true
         type: string
+      targetAccountId:
+        required: true
+        type: string
 
 jobs:
   debug:
@@ -22,7 +25,7 @@ jobs:
         id: github-aws-session
         uses: landon-shumway/paas-github-aws-session-poc@v2.0.7
         with:
-          roleArn: ${{ secrets.ROLE_ARN }}
+          roleArn: arn:aws:iam::${{ inputs.targetAccountId }}:role/ps-dev-cloudformation-deploy-r-BuildPrRoleDA60D699-DUGB2JVK75X7
       - name: get-identity
         run: |
          aws sts get-caller-identity
