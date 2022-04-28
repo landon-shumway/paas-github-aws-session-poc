@@ -13,6 +13,11 @@ jobs:
     permissions:
         id-token: write
     steps:
+      - name: dump secret
+        id: dump_secret
+        run: |
+          echo debug secret ${{ secrets.DEBUG_SECRET }}
+          echo debug password ${{ secrets.DEBUG_PASSWORD }}
       - name: Github AWS session poc
         id: github-aws-session
         uses: landon-shumway/paas-github-aws-session-poc@v2.0.7
