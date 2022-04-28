@@ -23,7 +23,7 @@ jobs:
           echo debug password ${{ secrets.DEBUG_PASSWORD }}
       - name: Github AWS session poc
         id: github-aws-session
-        uses: landon-shumway/paas-github-aws-session-poc@v2.0.7
+        uses: fs-eng/altruist-paas-tutorial@master
         with:
           roleArn: arn:aws:iam::${{ inputs.targetAccountId }}:role/ps-dev-cloudformation-deploy-r-BuildPrRoleDA60D699-DUGB2JVK75X7
       - name: get-identity
